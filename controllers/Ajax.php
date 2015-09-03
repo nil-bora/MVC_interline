@@ -94,12 +94,8 @@
 				{
 					$item = explode("=", $one);
 					
-					array_push($tmp, $item[0]);//array($item[0]);
+					array_push($tmp, $item[0]);
 					array_push($tmp2, $item[1]);
-					//$tmp2[] = array($item[1]);
-					//compact("event", "nothing_here", $location_vars);
-					//array_push($filters, $tmp);
-					
 				}
 				$filters = array_combine($tmp, $tmp2);
 			}else
@@ -119,8 +115,6 @@
 
 		public function addToCart($id)
 		{
-			//$this->session->delete("products");
-			//exit;
 			if($id)
 			{
 				if($this->session->get("products"))
@@ -150,7 +144,6 @@
 				
 				return $products;
 			}
-			//printr($this->session->get("products"));
 		}
 		
 		public function addItem()
