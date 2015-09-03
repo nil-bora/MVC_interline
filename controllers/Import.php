@@ -8,10 +8,7 @@
 		{
 		    parent::__construct();
 		}
-		public function test()
-		{
-			echo 11;
-		}
+
 		function delete_directory($dirname)
 		{
 			$dir_handle=false;
