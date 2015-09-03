@@ -24,17 +24,16 @@
 		{
 			
 			$filename=APP_DIR.'cron/block.php';
-			//file_put_contents($filename, "1");
+
 			$new_array = array();
 			$follow_price = $this->model->follow_price()->joined(true)->order("pos ASC")->getByActive(1);
 
-			//printr($follow_price);
 			foreach($follow_price as $key=>$item)
 			{
 				$email = strtolower(trim($item['email']));
 				$new_array[$email][] =  $item;
 			}
-			//printr($new_array);
+
 			foreach($new_array as $key=>$item)
 			{
 				foreach($item as $k=>$v)
@@ -71,7 +70,6 @@
 					$mail->ClearAddresses();
 				}
 			}
-			//printr($new_array);
 		}
 		
 		
