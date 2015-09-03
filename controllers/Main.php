@@ -9,11 +9,6 @@
 		    parent::__construct();
 		}
 		
-		public function sample()
-		{
-			echo "Hello world";
-		}
-		
 		public function generateToken()
 		{
 			if($this->request->post('form'))
@@ -147,10 +142,6 @@
 		
 		public function followPrice()
 		{
-			//$id = 352;
-			///$email = "brdnlsrg@gmail.com";
-			//$name = "Test";
-
 			
 			if($this->request->post('id') && $this->request->post('email'))
 			{
@@ -245,7 +236,6 @@
 				}
 			}
 			
-			//printr($catalog);
 		}
 		
 		public function addComment()
@@ -271,48 +261,11 @@
 			}
 		}
 		
-		public function addComents()
-		{
-			
-			/*	 
-			$coments = $this->database->query("SELECT * FROM fend_mod_comment_test")->resultArray();
-			
-			$products = $this->model->products()->get();
-			foreach($coments as $key=>$item)
-			{
-				foreach($products as $one)
-				{
-					if($item['comment_product_id'] == $one['product_id'])
-					{
-						$coments[$key]['id'] = $one['id'];
-					}
-				}
-			}
-			
-			foreach($coments as $one)
-			{
-				
-				$this->database->insert('coments', array(
-							"idate"=>strtotime($one['comment_date']),
-							"name_rus"=>$one['comment_name'],
-							"body_rus"=>$one['comment_content'],
-							"active"=>($one['comment_active'] == 1 ? 1 : -1),
-							"product_id"=>$one['id']
-							
-				));
-				 
-			}
-			 * 
-			 */
-			
-		}
-		
 		public function propertyUpdate()
 		{
 			$property = $this->database->query("SELECT * FROM fend_mod_property_test")->resultArray();
 			foreach($property as $one)
 			{
-				//printr(safe_upload_name($one['property_name']));
 				 $this->database->insert("property", array(
 						"sys_name"=>safe_upload_name($one['property_name']),
 						"name_rus"=>$one['property_name'],
@@ -320,7 +273,6 @@
 						"active"=>'1'			
 				 ));
 			}
-			//printr($property);
 		}
 		
 		public function imageUpdate()
@@ -347,8 +299,6 @@
 				
 			}
 			
-			///printr(substr('photo_31_main_m.jpg', -6));
-			//printr($images_new);
 			foreach($images_new as $key=>$item)
 			 {
 				 if(substr($item['file_name'], -6) == '_s.jpg')
@@ -357,18 +307,8 @@
 				 	$file =substr($item['file_name'], 0, -6).'.jpg';
 					$dir_img = "/storage/product/".$item['file_elem_id']."/".$file;
 					$idProducts = $this->database->query("SELECT id FROM products WHERE product_id='".$item['file_elem_id']."'")->one();
-
-					// $this->database->insert("gallery", array(
-						// 'page_id'=>$idProducts,
-						// 'image'=>$dir_img,
-						// 'table_id'=>52,
-						// 'pos'=>0,
-						// 'column'=>'gallery'
-					// ));
-				 	//$this->database->update("products", array('image'=>$dir_img), array("product_id"=>$item['file_elem_id']));
 				 }
 			 }
-			// printr($images_new);
 			
 		}
 		
@@ -397,31 +337,6 @@
 			}
 		}
 		
-		public function categorySort()
-		{
-			$category = $this->database->query("SELECT `category_id` ,  `category_code` 
-FROM  `fend_mod_category_test`")->resultArray();
-			
-			$catalog = $this->database->query("SELECT id, href FROM catalog")->resultArray();
-			
-			foreach($category as $key=>$one)
-			{
-				foreach($catalog as $two)
-				{
-					if($one['category_code']==$two['href'])
-					{
-						$category[$key]['my_id'] = $two['id'];
-					}
-						
-				}
-			}
-			
-			foreach($category as $key=>$one)
-			{
-				//$this->database->update("products", array("catalog"=>$one['my_id']), array("category_id"=>$one['category_id']));
-			}
-			printr($category);
-		}
 		
 		public function updateProducts()
 		{
