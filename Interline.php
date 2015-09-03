@@ -11,6 +11,7 @@
 		var $subcategory;
 		var $product;
 		var $href;
+		
 		function __construct()
 		{	
 			parent::__construct(__FILE__);
@@ -114,8 +115,6 @@
 			$main_slider = $this->model->slider()->order("pos ASC")->getByActive(1);
 			$slide_bottom = $this->model->slider_bottom()->order("pos ASC")->getByActive(1);
 			$action = $this->model->action()->where("active=",1)->and_where("in_main=",1)->order("pos DESC")->getOne();
-			
-			//$action = $this->getActionImage($action);
 			
 			$data->assign("action", $action);
 			$data->assign("slide_bottom", $slide_bottom);
@@ -395,11 +394,6 @@
 									->and_where('price>=', $min_price)
 									->and_where('price<=', $max_price)->getOne();
 					}
-
-					//$allProd = $this->model->products()->select("COUNT(id) as count")->where("catalog=",$select_catalog['id'])->and_where("active=",1)->getOne();
-					
-					//printr(sizeof($products));
-					//printr($allProd['count']);
 					
 					if($allProd['count']<=$first+$last)
 						$data->assign("hb", 1);
@@ -544,19 +538,10 @@
 					$actions = $this->model->action()->where("id", $actionId)->get();
 					if($actions)
 					{
-						/*
-foreach($actions as $key=>$action)
-						{
-							$actions[$key] = $this->getActionImage($action);
-						}
-*/
 						$actions_tmp = $actions;
 						$action = array_shift($actions_tmp);
-
-						
 					}
-					
-					//$action = $this->getActionImage($action);
+
 				}
 				
 				$data->assign("action", $action);
@@ -665,18 +650,7 @@ foreach($actions as $key=>$action)
 			if($this->request->post("search"))
 			{
 				$search = strip_tags(trim($this->request->post("search")));
-				//$search = str_replace("/", " ", $search);
-				//$searchMas = explode(" ", $search);
 
-				/*
-				$sql = "SELECT id FROM products WHERE articul LIKE '%{$search}%' 
-						OR name_rus LIKE '%{$search}%' 
-						OR body_rus LIKE '%{$search}%'
-						OR body_rus LIKE '%{$search}%'
-						OR 1Cname  LIKE '%{$search}%'
-						OR description_addition LIKE '%{$search}%'
-						";
-				 */
 				$searchNew = str_replace("/", " ", $search);
 			 	$sql = "SELECT id FROM products WHERE 
 			 			articul LIKE '%{$search}%'
@@ -685,14 +659,6 @@ foreach($actions as $key=>$action)
 			 			OR REPLACE( 1Cname,  '/',  ' ' ) LIKE '%$searchNew%'
 			 			OR REPLACE( description_addition,  '/',  ' ' ) LIKE '%$searchNew%'";
 
-				//$query = "SELECT id FROM products WHERE MATCH (name_rus,body_rus) AGAINST ('+".implode("', '+", $searchMas)."' IN BOOLEAN MODE)";
-				
-				//$query2 = "SELECT id FROM products WHERE MATCH (name_rus) AGAINST ('WH')";
-				
-				//$query3 = "ALTER TABLE products ADD FULLTEXT(articul, name_rus, body_rus, 1Cname, description_addition)";
-				//$sql = "SELECT id FROM products WHERE name_rus IN ('".implode("', '", $searchMas)."')";
-				//$id = array_keys($this->database->query($query)->resultArray("id"));
-				//printr($this->database->query($query)->resultArray());
 			    $id = array_keys($this->database->query($sql)->resultArray("id"));
 			    $result = $this->model->products()->where("active=",1)->linked(true)->and_where("id",$id)->get();
 			    $result = $this->convertPrice($result);
@@ -702,11 +668,8 @@ foreach($actions as $key=>$action)
 				
 			    $data->assign("search", $search);
 			    $data->assign("array", $result);
-			   // printr($result);
 			}
-			//$this->request->post("search");
-			//printr();
-			
+
 
 			return $this->dwoo->get("search.php", $data);
 		}
@@ -796,27 +759,6 @@ foreach($actions as $key=>$action)
 		{
 			$data=new Dwoo_Data();
 			$actions = $this->model->action()->order("pos ASC")->getByActive(1);
-			/*
-foreach($actions as $key=>$item)
-			{
-				if($item['product1'])
-				{
-					$catalog1 =  $this->model->catalog()->treeNodeRoot($item['product1']);
-					$actions[$key]['imgCatalog1'] = $catalog1['image'];
-				}
-				if($item['product2'])
-				{
-					$catalog1 =  $this->model->catalog()->treeNodeRoot($item['product2']);
-					$actions[$key]['imgCatalog2'] = $catalog1['image'];
-				}
-				if($item['product3'])
-				{
-					$catalog1 =  $this->model->catalog()->treeNodeRoot($item['product3']);
-					$actions[$key]['imgCatalog3'] = $catalog1['image'];
-				}
-			}
-*/
-			
 			$data->assign("actions", $actions);
 			return $this->dwoo->get("action_list.php", $data);
 		}
@@ -921,12 +863,6 @@ foreach($actions as $key=>$item)
 				
 				uasort($products34, array($this, 'cmp'));
 
-				//$products1 = array_keys($this->database->query($sql1)->resultArray("id"));
-				//$products2 = array_keys($this->database->query($sql2)->resultArray("id"));
-				
-				//printr($pr);
-				
-				//$array[] = array('name'=>$actions['short_name'], 'href'=>$actions['href'], 'products'=>$pr);
 				$catalogPush = array(0=>$catalog1_node, 1=>$catalog2_node, 2=>$catalog3_node);
 				
 				$cartProdId = array();
@@ -936,7 +872,6 @@ foreach($actions as $key=>$item)
 					foreach($cartProducts as $k=>$v)
 						$cartProdId[] = $v['id'];
 				}
-				//printr($this->session->get("products"));
 			
 				/* START SEO */
 				$this->modules->page->parse_seo($actions);
